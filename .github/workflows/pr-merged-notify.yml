@@ -18,12 +18,10 @@ jobs:
             const prNumber = context.payload.pull_request.number;
             const prAuthor = context.payload.pull_request.user.login;
 
-            const message = `
-Hi @${prAuthor} 👏
-
-Your Pull Request #${prNumber} has been **merged** successfully! 🎉  
-Thank you for your contribution to **EduMind AI Study Assistant**. 🚀
-`;
+            const message = 
+              "Hi @" + prAuthor + " 👏\n\n" +
+              "Your Pull Request #" + prNumber + " has been **merged** successfully! 🎉\n" +
+              "Thank you for your contribution to **EduMind AI Study Assistant**. 🚀";
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
