@@ -1,0 +1,38 @@
+name: Issue — Assignment Message
+
+on:
+  issues:
+    types: [assigned]  # Trigger when someone gets assigned to an issue
+
+jobs:
+  assignment_message:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Send automatic message to assignee
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const assignee = context.payload.assignee.login;
+
+            const message = 
+              "Hi @" + assignee + " 👋\n\n" +
+              "You've been assigned to this issue! 🎯\n\n" +
+              "Before you start working, please make sure you have:\n" +
+              "- ⭐ **Starred** the repository to support the project\n" +
+              "- 🍴 **Forked** it to your account\n" +
+              "- Followed the contribution guidelines ([CONTRIBUTING.md](./CONTRIBUTING.md))\n\n" +
+              "Once done, feel free to start working on this issue. 💪\n\n" +
+              "Thanks for contributing to **EduMind AI Study Assistant** 🚀";
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: message
+            });
