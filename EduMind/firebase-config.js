@@ -3,7 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebas
 import {
     getAuth,
     GoogleAuthProvider,
-    GitHubAuthProvider,
+    GithubAuthProvider,
     signInWithPopup,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -51,7 +51,7 @@ const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
 // GitHub Auth Provider
-const githubProvider = new GitHubAuthProvider();
+const githubProvider = new GithubAuthProvider();
 
 export {
     app,

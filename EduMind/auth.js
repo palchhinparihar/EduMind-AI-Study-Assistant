@@ -227,6 +227,9 @@ async function googleSignIn() {
 // GitHub Sign-In Function
 async function githubSignIn() {
     const result = await signInWithPopup(auth, githubProvider);
+    if (!result) {
+        throw new Error('GitHub sign-in failed');
+    }
     const user = result.user;
     const userRef = doc(db, 'users', user.uid);
     const userDoc = await getDoc(userRef);
