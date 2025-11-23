@@ -294,5 +294,215 @@
 
     <script src="auth.js"></script>
     <script src="whiteboard.js"></script>
+
+    <!-- Theme Selector Button -->
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Change theme">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+  </svg>
+  <span>Themes</span>
+</button>
+
+<!-- Theme Selector Modal -->
+<div class="theme-modal" id="themeModal">
+  <div class="theme-modal-content">
+    <div class="theme-modal-header">
+      <h2 class="theme-modal-title">Choose Your Theme</h2>
+      <button class="theme-modal-close" id="closeModal" aria-label="Close">&times;</button>
+    </div>
+    
+    <div class="theme-grid">
+      <div class="theme-card" data-theme="blue">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #4A90E2;"></div>
+          <div class="theme-color" style="background: #50C878;"></div>
+          <div class="theme-color" style="background: #357ABD;"></div>
+        </div>
+        <div class="theme-name">Blue</div>
+        <div class="theme-desc">Clean & Professional</div>
+      </div>
+      
+      <div class="theme-card" data-theme="purple">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #8B5CF6;"></div>
+          <div class="theme-color" style="background: #EC4899;"></div>
+          <div class="theme-color" style="background: #7C3AED;"></div>
+        </div>
+        <div class="theme-name">Purple</div>
+        <div class="theme-desc">Creative & Vibrant</div>
+      </div>
+      
+      <div class="theme-card" data-theme="minimal-white">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #000000;"></div>
+          <div class="theme-color" style="background: #666666;"></div>
+          <div class="theme-color" style="background: #FFFFFF;"></div>
+        </div>
+        <div class="theme-name">Minimal White</div>
+        <div class="theme-desc">Simple & Elegant</div>
+      </div>
+      
+      <div class="theme-card" data-theme="neon">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #00FFF0;"></div>
+          <div class="theme-color" style="background: #FF1744;"></div>
+          <div class="theme-color" style="background: #0A0E27;"></div>
+        </div>
+        <div class="theme-name">Neon</div>
+        <div class="theme-desc">Bold & Futuristic</div>
+      </div>
+      
+      <div class="theme-card" data-theme="dark">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #60A5FA;"></div>
+          <div class="theme-color" style="background: #34D399;"></div>
+          <div class="theme-color" style="background: #111827;"></div>
+        </div>
+        <div class="theme-name">Dark Mode</div>
+        <div class="theme-desc">Easy on Eyes</div>
+      </div>
+      
+      <div class="theme-card" data-theme="ocean">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #0EA5E9;"></div>
+          <div class="theme-color" style="background: #14B8A6;"></div>
+          <div class="theme-color" style="background: #F0F9FF;"></div>
+        </div>
+        <div class="theme-name">Ocean</div>
+        <div class="theme-desc">Calm & Serene</div>
+      </div>
+      
+      <div class="theme-card" data-theme="sunset">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #F97316;"></div>
+          <div class="theme-color" style="background: #F59E0B;"></div>
+          <div class="theme-color" style="background: #FFF7ED;"></div>
+        </div>
+        <div class="theme-name">Sunset</div>
+        <div class="theme-desc">Warm & Energetic</div>
+      </div>
+      
+      <div class="theme-card" data-theme="forest">
+        <div class="theme-colors">
+          <div class="theme-color" style="background: #16A34A;"></div>
+          <div class="theme-color" style="background: #84CC16;"></div>
+          <div class="theme-color" style="background: #F0FDF4;"></div>
+        </div>
+        <div class="theme-name">Forest</div>
+        <div class="theme-desc">Natural & Fresh</div>
+      </div>
+    </div>
+    
+    <button class="theme-reset-btn" id="resetTheme">Reset to Default Theme</button>
+  </div>
+</div>
+
+<!-- Theme Switcher Script -->
+<script>
+// Theme Switcher Script - Add to all HTML pages
+(function() {
+  const THEMES = ['blue', 'purple', 'minimal-white', 'neon', 'dark', 'ocean', 'sunset', 'forest'];
+  const DEFAULT_THEME = 'blue';
+  const STORAGE_KEY = 'edumind-theme';
+  
+  // Load saved theme
+  function loadTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return THEMES.includes(saved) ? saved : DEFAULT_THEME;
+  }
+  
+  // Apply theme
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+    updateActiveCard(theme);
+  }
+  
+  // Update active theme card
+  function updateActiveCard(theme) {
+    document.querySelectorAll('.theme-card').forEach(card => {
+      card.classList.toggle('active', card.dataset.theme === theme);
+    });
+  }
+  
+  // Show notification
+  function showNotification(message) {
+    const existing = document.querySelector('.theme-notification');
+    if (existing) existing.remove();
+    
+    const notif = document.createElement('div');
+    notif.className = 'theme-notification';
+    notif.textContent = message;
+    document.body.appendChild(notif);
+    
+    setTimeout(() => {
+      notif.style.animation = 'fadeOut 0.3s ease';
+      setTimeout(() => notif.remove(), 300);
+    }, 2000);
+  }
+  
+  // Initialize
+  const currentTheme = loadTheme();
+  applyTheme(currentTheme);
+  
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    const modal = document.getElementById('themeModal');
+    const closeBtn = document.getElementById('closeModal');
+    const resetBtn = document.getElementById('resetTheme');
+    
+    // Open modal
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    
+    // Close modal
+    function closeModal() {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        closeModal();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+    
+    // Theme selection
+    document.querySelectorAll('.theme-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const theme = card.dataset.theme;
+        applyTheme(theme);
+        showNotification(`Theme changed to ${card.querySelector('.theme-name').textContent}`);
+        setTimeout(closeModal, 500);
+      });
+    });
+    
+    // Reset theme
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        applyTheme(DEFAULT_THEME);
+        showNotification('Theme reset to default');
+      });
+    }
+  });
+})();
+</script>
 </body>
 </html>
